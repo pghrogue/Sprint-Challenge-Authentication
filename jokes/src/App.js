@@ -9,6 +9,7 @@ import './App.css';
 import Home from './routes/Home';
 import Register from './routes/Register';
 import Login from './routes/Login';
+import Jokes from './routes/Jokes';
 
 class App extends Component {
   render() {
@@ -24,6 +25,7 @@ class App extends Component {
             <Route path='/' component={Home} exact></Route>
             <Route path='/register' component={Register} exact></Route>
             <Route path='/login' component={Login} exact></Route>
+            <Route path='/jokes' component={Jokes} exact></Route>
           </main>
         </header>
       </div>

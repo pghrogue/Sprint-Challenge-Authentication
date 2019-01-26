@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class Login extends Component {
   constructor() {
@@ -35,6 +36,7 @@ class Login extends Component {
         if( res.status === 201 ){
           this.setState({ msg: "Logged in." });
           localStorage.setItem('jwt', res.data.token);
+          this.setState({ redirect: true });
         } else {
           this.setState({ msg: "Please try again later." });
         }
@@ -52,6 +54,9 @@ class Login extends Component {
 
   // Render page:
   render() {
+    if( this.state.redirect === true ) {
+      return (<Redirect to='/jokes'/>);
+    }
     return (
       <div className='login'>
         <form onSubmit={this.handleSubmit}>
