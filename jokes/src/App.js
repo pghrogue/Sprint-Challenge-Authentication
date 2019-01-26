@@ -8,6 +8,7 @@ import './App.css';
 // Routes:
 import Home from './routes/Home';
 import Register from './routes/Register';
+import Login from './routes/Login';
 
 class App extends Component {
   render() {
@@ -15,12 +16,14 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <nav>
-            <NavLink to='/' exact>Home</NavLink> &nbsp;|&nbsp;
-            <NavLink to='/register'>Register</NavLink>
+            <NavLink to='/' exact>Home</NavLink> &nbsp; | &nbsp;
+            <NavLink to='/register'>Register</NavLink> &nbsp; | &nbsp;
+            <NavLink to='/login'>Login</NavLink>
           </nav>
           <main>
             <Route path='/' component={Home} exact></Route>
             <Route path='/register' component={Register} exact></Route>
+            <Route path='/login' component={Login} exact></Route>
           </main>
         </header>
       </div>

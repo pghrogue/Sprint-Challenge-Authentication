@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class Register extends Component {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
       username: "",
       password: "",
-      msg: ""
+      msg: "",
+      redirect: false
     }
   };
 
@@ -25,21 +26,22 @@ class Register extends Component {
       username: this.state.username,
       password: this.state.password
     };
-    const endpoint = 'http://localhost:3300/api/register';
+    const endpoint = 'http://localhost:3300/api/login';
 
     // Contact server:
     axios.post( endpoint, auth )
       .then( (res) => {
         console.log('response data: ', res.data);
         if( res.status === 201 ){
-          this.setState({ msg: "Registered. Please Login now." });
+          this.setState({ msg: "Logged in." });
+          localStorage.setItem('jwt', res.data.token);
         } else {
           this.setState({ msg: "Please try again later." });
         }
       })
       .catch( (err) => {
         console.log('error data: ', err );
-        this.setState({ msg: "Please try again with a different username."});
+        this.setState({ msg: "Invalid Username or Password."});
       });
     // end-axios.post
     this.setState({
@@ -51,7 +53,7 @@ class Register extends Component {
   // Render page:
   render() {
     return (
-      <div className='register'>
+      <div className='login'>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlForm='username'>Username: </label>
@@ -64,7 +66,7 @@ class Register extends Component {
           </div>
 
           <div>
-            <button type='submit'>Register</button>
+            <button type='submit'>Login</button>
           </div>
         </form>
         <div>{this.state.msg}</div>
@@ -74,4 +76,4 @@ class Register extends Component {
 
 };
 
-export default Register;
+export default Login;
