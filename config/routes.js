@@ -1,6 +1,7 @@
 const axios = require('axios');
 const db = require('../database/dbConfig');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const { authenticate } = require('../auth/authenticate');
 
@@ -9,6 +10,23 @@ module.exports = server => {
   server.post('/api/login', login);
   server.get('/api/jokes', authenticate, getJokes);
 };
+
+const jwtKey =
+  process.env.JWT_SECRET ||
+  'add a .env file to root of project with the JWT_SECRET variable';
+
+// Generate token to send on login
+function generateToken(user) {
+  const payload = {
+    username: user.username
+  };
+
+  const options = {
+    expiresIn: '1hr',
+    jwtid: `${user.id}`
+  };
+  return jwt.sign(payload, jwtKey, options);
+}
 
 function register(req, res) {
   // implement user registration
@@ -45,7 +63,8 @@ function login(req, res) {
       .then( (user) => {
         if( user.length && bcrypt.compareSync(login.password, user[0].password) ){
           // Generate token here & insert into res
-          res.status(201).json({ info: "Logged in" });
+          const token = generateToken(user[0]);
+          res.status(201).json({ info: "Logged in", token });
         } else {
           res.status(401).json({ error: "Invalid username or password." });
         }
