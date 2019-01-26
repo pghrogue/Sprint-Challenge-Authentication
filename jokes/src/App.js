@@ -12,6 +12,10 @@ import Login from './routes/Login';
 import Jokes from './routes/Jokes';
 
 class App extends Component {
+  signout = () => {
+    localStorage.removeItem('jwt');
+  }
+
   render() {
     return (
       <div className="App">
@@ -19,13 +23,15 @@ class App extends Component {
           <nav>
             <NavLink to='/' exact>Home</NavLink> &nbsp; | &nbsp;
             <NavLink to='/register'>Register</NavLink> &nbsp; | &nbsp;
-            <NavLink to='/login'>Login</NavLink>
+            <NavLink to='/login'>Login</NavLink> &nbsp; | &nbsp;
+            <NavLink to='/logout' onClick={this.signout}>Log Out</NavLink>
           </nav>
           <main>
             <Route path='/' component={Home} exact></Route>
             <Route path='/register' component={Register} exact></Route>
             <Route path='/login' component={Login} exact></Route>
             <Route path='/jokes' component={Jokes} exact></Route>
+            <Route path='/logout' component={Home} exact></Route>
           </main>
         </header>
       </div>
