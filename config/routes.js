@@ -43,6 +43,7 @@ function register(req, res) {
         res.status(201).json({ id: newId[0] });
       })
       .catch( (err) =>{
+        console.log("error: ", err);
         res.status(500).json({ error: `Could not register new user: ${err}` });
       });
     // end-db.insert
