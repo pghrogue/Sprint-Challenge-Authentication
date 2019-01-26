@@ -42,6 +42,10 @@ class Register extends Component {
         this.setState({ msg: "Please try again with a different username."});
       });
     // end-axios.post
+    this.setState({
+      username: "",
+      password: ""
+    });
   };
 
   // Render page:
