@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 class Jokes extends Component {
   constructor() {
     super();
     this.state = {
-      jokes: []
+      jokes: [],
+      redirect: false
     }
   };
 
@@ -19,13 +21,28 @@ class Jokes extends Component {
     };
 
     axios.get( endpoint, options )
-      .then()
-      .catch();
+      .then( (res) => {
+        this.setState({ jokes: res.data });
+      })
+      .catch( (err) => {
+        console.log( 'error :', err );
+        this.setState({ redirect: true });
+      });
     // end-axios.get
   }
   render() {
+    if( this.state.redirect === true ){
+      return(<Redirect to='/home'/>);
+    }
     return(
-      <div>Jokes</div>
+      <div className='jokes'>
+        <h1>Jokes:</h1>
+        {this.state.jokes.map( (joke) => {
+          return(
+            <div key={joke.id}>{joke.joke}</div>
+          );
+        })}
+      </div>
     );
   };
 };
